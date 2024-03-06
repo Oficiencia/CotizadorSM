@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa; /* Un color de fondo claro */
+}
+
+h2 {
+    color: #007bff; /* Un azul similar al de Bootstrap para mantener la consistencia */
+    font-family: 'Arial', sans-serif; /* Cambiar la fuente del título */
+    text-align: center; /* Centrar el título */
+    margin-bottom: 20px; /* Añadir un poco de espacio debajo del título */
+}
+
+.btn-primary {
+    background-color: #0056b3; /* Un tono de azul más oscuro para el botón */
+    border-color: #004085; /* Borde del botón un poco más oscuro */
+}
+
+.btn-primary:hover {
+    background-color: #003d7a; /* Cambiar el color al pasar el ratón por encima para dar feedback al usuario */
+}
+
+/* Estilo añadido para resaltar el texto en azul */
+.texto-azul {
+    color: #007bff; /* Este es un tono de azul utilizado en Bootstrap */
+}
+
+/* Para ocultar flechas en los campos numéricos en Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

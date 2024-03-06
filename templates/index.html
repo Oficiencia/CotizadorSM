@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cotizador de Productos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Formulario de Cotización de Productos</h2>
+        <form action="/" method="post" class="mt-4">
+            <!-- N° Cotización -->
+            <div class="row mb-3">
+                <div class="col-md-2 text-center">
+                    <label for="numeroCotizacion">N° Cotización:</label>
+                    <input type="text" class="form-control" id="numeroCotizacion" name="numeroCotizacion" style="text-align: center;" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label for="codigoProducto">Código del Producto:</label>
+                    <input type="number" step="0.01" class="form-control" id="codigoProducto" name="codigoProducto" required>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label for="nombreProducto">Nombre del Producto:</label>
+                    <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label for="cliente">Cliente:</label>
+                    <input type="text" class="form-control" id="cliente" name="cliente" required>
+                </div>
+            </div>
+
+            <!-- Parámetros de Materia Prima -->
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mt-4">Parámetros de Materia Prima</h3>
+                    <div class="p-3 border rounded">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="peso">Peso (gr):</label>
+                                <input type="number" step="0.01" class="form-control" id="peso" name="peso" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="porcentajeAumento">% Aumento:</label>
+                                <input type="number" step="0.01" class="form-control" id="porcentajeAumento" name="porcentajeAumento" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Material 1 -->
+                            <div class="col-md-2 form-group">
+                                <label for="material1">Material 1:</label>
+                                <input type="text" class="form-control" id="material1" name="material1" required>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="costoMaterial1">Costo Material 1:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoMaterial1" name="costoMaterial1" required>
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="porcentajeMat1">% Mat1:</label>
+                                <input type="number" step="0.01" class="form-control" id="porcentajeMat1" name="porcentajeMat1" required>
+                            </div>
+                        
+                            <!-- Material 2 -->
+                            <div class="col-md-2 form-group">
+                                <label for="material2">Material 2:</label>
+                                <input type="text" class="form-control" id="material2" name="material2" required>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="costoMaterial2">Costo Material 2:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoMaterial2" name="costoMaterial2" required>
+                            </div>
+                            <div class="col-md-1 form-group">
+                                <label for="porcentajeMat2">% Mat2:</label>
+                                <input type="number" step="0.01" class="form-control" id="porcentajeMat2" name="porcentajeMat2" required>
+                            </div>
+                        
+                            <!-- Costo Material x und -->
+                            <div class="col-md-2 form-group">
+                                <label for="costoMatPorUnd">Costo por und:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoMatPorUnd" name="costoMatPorUnd" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="pigmento">Pigmento:</label>
+                                <input type="text" class="form-control" id="pigmento" name="pigmento" required>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="costoPigmento">Costo Pigmento:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoPigmento" name="costoPigmento" required>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="costoPigPorUnd">Costo Pigmento x und:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoPigPorUnd" name="costoPigPorUnd" readonly>
+                            </div>                            
+                        </div>
+                        <!-- Empaque -->
+                        <h5 class="mt-4">Empaque</h5>
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="undsPorEmpaque"># unds por empaque:</label>
+                                <input type="number" class="form-control" id="undsPorEmpaque" name="undsPorEmpaque" required>
+                            </div>
+                        </div>
+
+                        <!-- Opción para Caja -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="incluyeCaja" name="incluyeCaja">
+                                    <label class="form-check-label" for="incluyeCaja">Caja</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="tamanoCaja">Tamaño:</label>
+                                <input type="text" class="form-control" id="tamanoCaja" name="tamanoCaja" disabled>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="costoCaja">Costo:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoCaja" name="costoCaja" disabled>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="costoCajaPorUnd">Costo Caja x und:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoCajaPorUnd" name="costoCajaPorUnd" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Opción para Bolsa -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="incluyeBolsa" name="incluyeBolsa">
+                                    <label class="form-check-label" for="incluyeBolsa">Bolsa</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="costoRollo">Costo Rollo:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoRollo" name="costoRollo" disabled>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="bolsasPorRollo"># bolsas por rollo:</label>
+                                <input type="number" class="form-control" id="bolsasPorRollo" name="bolsasPorRollo" disabled>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="costoBolsaporUnd">Costo Bolsa x und:</label>
+                                <input type="number" step="0.01" class="form-control" id="costoBolsaporUnd" name="costoBolsaporUnd" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="costoMP"><strong>Costo MP x Unidad:</strong></label>
+                                <input type="number" step="0.01" class="form-control" id="costoMP" name="costoMP" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parámetros de Producción -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mt-4">Parámetros de Producción</h3>
+                <div class="p-3 border rounded">
+                    <!-- Campo # Cavidades -->
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="cavidades"># Cavidades:</label>
+                            <input type="number" class="form-control" id="cavidades" name="cavidades" required>
+                        </div>
+                        <!-- Campo Ciclo (segundos) -->
+                        <div class="col-md-6 form-group">
+                            <label for="ciclo">Ciclo (segundos):</label>
+                            <input type="number" step="0.01" class="form-control" id="ciclo" name="ciclo" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Campo Cantidad Mínima Mensual -->
+                        <div class="col-md-4 form-group">
+                            <label for="cantidadMin">Cantidad Mínima Mensual:</label>
+                            <input type="text" class="form-control" id="cantidadMin" name="cantidadMin" readonly>
+                        </div>
+                        <!-- Campo Cantidad Mínima Color -->
+                        <div class="col-md-4 form-group">
+                            <label for="cantidadMinColor">Cantidad Mínima por Color:</label>
+                            <input type="text" class="form-control" id="cantidadMinColor" name="cantidadMinColor" readonly>
+                        </div>
+                        <!-- Campo Cantidad Máxima Mensual -->
+                        <div class="col-md-4 form-group">
+                            <label for="cantidadMax">Cantidad Máxima Mensual:</label>
+                            <input type="text" class="form-control" id="cantidadMax" name="cantidadMax" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parámetros de Cotización -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mt-4">Parámetros de Cotización</h3>
+                <div class="p-3 border rounded">
+                    <!-- Campo Máquina -->
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="maquinaCotizacion">Máquina:</label>
+                            <input type="text" class="form-control" id="maquinaCotizacion" name="maquinaCotizacion" required>
+                        </div>
+                        <!-- Campo Producto que más se fabrica -->
+                        <div class="col-md-6 form-group">
+                            <label for="productoFrecuenteCotizacion">Producto que más se fabrica:</label>
+                            <input type="text" class="form-control" id="productoFrecuenteCotizacion" name="productoFrecuenteCotizacion" required>
+                        </div>
+                    </div>
+                    <!-- Campo % MP / Precio -->
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="porcentajeMPPrecio">% MP / Precio:</label>
+                            <input type="number" step="0.01" class="form-control" id="porcentajeMPPrecio" name="porcentajeMPPrecio" required>
+                        </div>
+                        <!-- Campo Truput x Seg -->
+                        <div class="col-md-6 form-group">
+                            <label for="truputSeg">Truput x Seg:</label>
+                            <input type="number" step="0.01" class="form-control" id="truputSeg" name="truputSeg" required>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+        <!-- Análisis de Precios -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mt-4">Análisis de Precios</h3>
+                <div class="p-3 border rounded">
+                    <div class="row">
+                        <!-- Método 1 - Calculado x %MP/Precio -->
+                        <div class="col-md-6">
+                            <h4>Método 1 - Calculado x %MP/Precio</h4>
+                            <div class="form-group">
+                                <label for="precioMetodo1">Precio:</label>
+                                <input type="number" step="0.01" class="form-control" id="precioMetodo1" name="precioMetodo1" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="truputSegMetodo1">Truput x seg:</label>
+                                <input type="number" step="0.01" class="form-control" id="truputSegMetodo1" name="truputSegMetodo1" readonly>
+                            </div>
+                        </div>
+                        <!-- Método 2 - Calculado x Truput x seg -->
+                        <div class="col-md-6">
+                            <h4>Método 2 - Calculado x Truput x seg</h4>
+                            <div class="form-group">
+                                <label for="precioMetodo2">Precio:</label>
+                                <input type="number" step="0.01" class="form-control" id="precioMetodo2" name="precioMetodo2" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="porcentajeMPPrecioMetodo2">%MP/Precio:</label>
+                                <input type="number" step="0.01" class="form-control" id="porcentajeMPPrecioMetodo2" name="porcentajeMPPrecioMetodo2" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 mt-3">
+                            <h5 class="texto-azul">Precio Mínimo:</h5>
+                            <input type="text" id="precioMin" name="precioMin" class="form-control" style="text-align: center;" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Costos Adicionales -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mt-4">Costos Adicionales</h3>
+                <div class="p-3 border rounded">
+                    <!-- Ensamble con otros productos -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="ensambleProductos">
+                                <label class="form-check-label" for="ensambleProductos"><strong>Ensamble con otros productos</strong></label>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row" id="partesContenedor" style="display: none;"> 
+                        <div class="col-md-2 form-group">
+                            <label for="numeroDePartes">N° de partes:</label>
+                            <input type="number" class="form-control" id="numeroDePartes" name="numeroDePartes" disabled>
+                        </div>
+                    </div>
+                    <!-- Contenedor para partes dinámicas -->
+                    <div id="ensamblePartesContenedor"></div>
+                    <div class="row mt-2" id="totaldeensamble" style="display: none;">
+                        <div class="col-md-2">
+                            <label for="costoEnsambleProductos">Total Ensamble:</label>
+                            <input type="text" class="form-control" id="costoEnsambleProductos" name="costoEnsambleProductos" readonly>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;"></div>
+
+                    <!-- Linners -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="linners">
+                                <label class="form-check-label" for="linners"><strong>Linners</strong></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="linnersTitles" class="row mt-2" style="display: none;">
+                        <div class="col"><strong>Ref. Linner</strong></div>
+                        <div class="col"><strong>Costo por Und</strong></div>
+                        <div class="col"><strong>Maquina x Und</strong></div>
+                        <div class="col"><strong># Personas</strong></div>
+                        <div class="col"><strong>Piezas por turno</strong></div>
+                        <div class="col"><strong>Costo Ensamble</strong></div>
+                        <div class="col"><strong>Costo Total</strong></div>
+                    </div>
+                    
+                    <div id="linnersFields" class="row mt-2" style="display: none;">
+                        <div class="col">
+                            <input type="text" class="form-control" id="refLinner" name="refLinner" placeholder="Ref. Linner" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="precioPorUndLinner" name="precioPorUndLinner" placeholder="Costo por Und" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="maquinaPorUndLinner" name="maquinaPorUndLinner" placeholder="Maquina por Und" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="personasLinner" name="personasLinner" placeholder="# Personas" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="piezasPorTurnoLinner" name="piezasPorTurnoLinner" placeholder="Piezas por turno" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="costoEnsambleLinner" name="costoEnsambleLinner" placeholder="Costo Ensamble" readonly>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="costoLinners" name="costoLinners" placeholder="Costo Total" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Etiquetas -->
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="etiquetas">
+                        <label class="form-check-label" for="etiquetas"><strong>Etiquetas</strong></label>
+                    </div>
+
+                    <div id="etiquetasTitles" class="row mt-2" style="display: none;">
+                        <div class="col"><strong>Referencia</strong></div>
+                        <div class="col"><strong>Costo por Und</strong></div>
+                        <div class="col"><strong>Maquina x Und</strong></div>
+                        <div class="col"><strong># Personas</strong></div>
+                        <div class="col"><strong>Piezas por turno</strong></div>
+                        <div class="col"><strong>Costo Postura</strong></div>
+                        <div class="col"><strong>Costo Total</strong></div>
+                    </div>
+
+                    <div id="etiquetasFields" class="row mt-2" style="display: none;">
+                        <div class="col">
+                            <input type="text" class="form-control" id="refetiqueta" name="refetiqueta" placeholder="Referencia" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="precioPorUndEtiqueta" name="precioPorUndEtiqueta" placeholder="Costo por Und" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="maquinaPorUndEtiqueta" name="maquinaPorUndEtiqueta" placeholder="Maquina por Und" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="personasEtiqueta" name="personasEtiqueta" placeholder="# Personas" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="piezasPorTurnoEtiqueta" name="piezasPorTurnoEtiqueta" placeholder="Piezas por turno" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="costoPosturaEtiqueta" name="costoPosturaEtiqueta" placeholder="Costo Ensamble" readonly>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="costoEtiquetas" name="costoEtiquetas" placeholder="Costo Total" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Fajillas -->
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="fajillas">
+                        <label class="form-check-label" for="fajillas"><strong>Fajillas</strong></label>
+                    </div>
+
+                    <div id="fajillasTitles" class="row mt-2" style="display: none;">
+                        <div class="col"><strong>Referencia</strong></div>
+                        <div class="col"><strong>Costo por Und</strong></div>
+                        <div class="col"><strong>Maquina x Und</strong></div>
+                        <div class="col"><strong># Personas</strong></div>
+                        <div class="col"><strong>Piezas por turno</strong></div>
+                        <div class="col"><strong>Costo Postura</strong></div>
+                        <div class="col"><strong>Costo Total</strong></div>
+                    </div>
+
+                    <div id="fajillasFields" class="row mt-2" style="display: none;">
+                        <div class="col">
+                            <input type="text" class="form-control" id="reffajilla" name="reffajilla" placeholder="Referencia" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="precioPorUndFajilla" name="precioPorUndFajilla" placeholder="Costo por Und" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="maquinaPorUndFajilla" name="maquinaPorUndFajilla" placeholder="Maquina por Und" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="personasFajilla" name="personasFajilla" placeholder="# Personas" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="piezasPorTurnoFajilla" name="piezasPorTurnoFajilla" placeholder="Piezas por turno" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="costoPosturaFajilla" name="costoPosturaFajilla" placeholder="Costo Ensamble" readonly>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="costoFajillas" name="costoFajillas" placeholder="Costo Total" readonly>
+                        </div>
+                    </div>
+                    
+                    <!-- Impresión -->
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="impresion">
+                        <label class="form-check-label" for="impresion"><strong>Impresión</strong></label>
+                    </div>
+                    
+                    <div id="impresionTitles" class="row mt-2" style="display: none;">
+                        <div class="col"><strong>Número de tintas</strong></div>
+                        <div class="col"><strong>Costo por Und</strong></div>
+                        <div class="col"><strong>Costo Total</strong></div>
+                    </div>
+
+                    <div id="impresionFields" class="row mt-2" style="display: none;">
+                        <div class="col">
+                            <input type="number" step="1" class="form-control" id="numtintas" name="numtintas" placeholder="Número de Tintas" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="costoPorUndImpresion" name="costoPorUndImpresion" placeholder="Costo por Und" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="costoImpresion" name="costoImpresion" placeholder="Costo Total" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Transporte nacional -->
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="transporte">
+                        <label class="form-check-label" for="transporte"><strong>Transporte nacional</strong></label>
+                    </div>
+                    <div id="transporteTitles" class="row mt-2" style="display: none;">
+                        <div class="col"><strong>Destino</strong></div>
+                        <div class="col"><strong>Costo por Empaque</strong></div>
+                        <div class="col"><strong>Costo Total</strong></div>
+                    </div>
+                    <div id="transporteFields" class="row mt-2" style="display: none;">
+                        <div class="col">
+                            <input type="text" class="form-control" id="destino" name="destino" placeholder="Destino" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="costoPorEmpaque" name="costoPorEmpaque" placeholder="Costo por Empaque" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="costoTransporte" name="costoTransporte" placeholder="Costo Total" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Amortización moldes -->
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="amortizacionMoldes">
+                        <label class="form-check-label" for="amortizacionMoldes"><strong>Amortización moldes</strong></label>
+                    </div>
+                    <div id="moldeTitles" class="row mt-2" style="display: none;">
+                        <div class="col"><strong>Costo por Unidad</strong></div>
+                    </div>
+                    <div id="moldeFields" class="row mt-2" style="display: none;">
+                        <div class="col-md-2">
+                            <input type="number" step="0.01" class="form-control" id="costoAmortizacionMoldes" name="costoAmortizacionMoldes" placeholder="Costo por unidad" disabled>
+                        </div>
+                    </div>
+
+                    <!-- Otro -->
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="otroCostoAdicional">
+                        <label class="form-check-label" for="otroCostoAdicional"><strong>Otro</strong></label>
+                    </div>
+                    <div id="otroCostoTitles" class="row mt-2" style="display: none;">
+                        <div class="col"><strong>Nombre del costo</strong></div>
+                        <div class="col"><strong>Costo por unidad</strong></div>
+                    </div>
+                    <div id="otroCostoFields" class="row mt-2" style="display: none;">
+                        <div class="col">
+                            <input type="text" class="form-control" id="nombreOtroCosto" name="nombreOtroCosto" placeholder="Nombre del costo" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" id="valorOtroCostoAdicional" name="valorOtroCostoAdicional" placeholder="Costo por unidad" disabled>
+                        </div>
+                    </div>
+            
+                    <!-- Total de Costos Adicionales -->
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <label class="texto-azul" for="totalCostosAdicionales"><strong>Total de Costos Adicionales:</strong></label>
+                            <input type="text" class="form-control" id="totalCostosAdicionales" name="totalCostosAdicionales" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-3 text-center">
+                <h5 class="texto-azul">Precio Mínimo Total:</h5>
+                <input type="text" id="precioTotal" name="precioTotal" class="form-control" style="text-align: center;" readonly>
+            </div>
+            <div class="col-md-2 text-center">
+                <label for="precioObjetivo">Precio Objetivo:</label>
+                <input type="number" step="0.01" class="form-control" id="precioObjetivo" name="precioObjetivo" style="text-align: center;" required>
+            </div>
+            <div class="col-md-2 text-center">
+                <label for="porcentajeMPPrecioObj">% MP/Precio:</label>
+                <input type="number" step="0.01" class="form-control" id="porcentajeMPPrecioObj" name="porcentajeMPPrecioObj" style="text-align: center;" readonly>
+            </div>
+            <div class="col-md-2 text-center">
+                <label for="truputSegObj">Truput por seg:</label>
+                <input type="number" step="0.01" class="form-control" id="truputSegObj" name="truputSegObj" style="text-align: center;" readonly>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <button type="button" class="btn btn-primary" id="guardarCotizacion">Guardar Cotización</button>
+            </div>
+        </div>
+        <div style="margin-bottom: 40px;"></div>
+    </div>
+
+    <!-- Script para calcular todos los valores del cotizador -->
+    <script>
+
+            function formatearNumero(numero) {
+                var partes = numero.toFixed(0).split(".");
+                partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return partes.join(","); 
+            }
+            
+            function calcularValores() {
+                var peso = parseFloat(document.getElementById('peso').value) || 0;
+                var costoMaterial1 = parseFloat(document.getElementById('costoMaterial1').value) || 0;
+                var costoMaterial2 = parseFloat(document.getElementById('costoMaterial2').value) || 0;
+                var porcentajeMat1 = parseFloat(document.getElementById('porcentajeMat1').value) || 0;
+                var porcentajeMat2 = parseFloat(document.getElementById('porcentajeMat2').value) || 0;
+                var costoPigmento = parseFloat(document.getElementById('costoPigmento').value) || 0;
+                var porcentajeAumento = parseFloat(document.getElementById('porcentajeAumento').value) || 0;
+                var costoCaja = parseFloat(document.getElementById('costoCaja').value) || 0;
+                var undsPorEmpaque = parseFloat(document.getElementById('undsPorEmpaque').value); // Prevenir división por cero
+                var costoRollo = parseFloat(document.getElementById('costoRollo').value) || 0;
+                var bolsasPorRollo = parseFloat(document.getElementById('bolsasPorRollo').value) || 1; // Prevenir división por cero
+                var cavidades = parseFloat(document.getElementById('cavidades').value) || 0;
+                var ciclo = parseFloat(document.getElementById('ciclo').value) || 0;
+                var porcentajeMPPrecio = parseFloat(document.getElementById('porcentajeMPPrecio').value) || 0;
+                var truputSeg = parseFloat(document.getElementById('truputSeg').value) || 0;
+                var costoEnsambleProductos = parseFloat(document.getElementById('costoEnsambleProductos').value) || 0;
+                var costoLinners = parseFloat(document.getElementById('costoLinners').value) || 0;
+                var costoEtiquetas = parseFloat(document.getElementById('costoEtiquetas').value) || 0;
+                var costoFajillas = parseFloat(document.getElementById('costoFajillas').value) || 0;
+                var costoImpresion = parseFloat(document.getElementById('costoImpresion').value) || 0;
+                var costoTransporte = parseFloat(document.getElementById('costoTransporte').value) || 0;
+                var costoAmortizacionMoldes = parseFloat(document.getElementById('costoAmortizacionMoldes').value) || 0;
+                var valorOtroCostoAdicional = parseFloat(document.getElementById('valorOtroCostoAdicional').value) || 0;
+                var precioObjetivo = parseFloat(document.getElementById('precioObjetivo').value) || 0;
+                
+                var ensambleProductosActivado = $('#ensambleProductos').is(':checked');
+                if (!ensambleProductosActivado) {
+                    // Si el checkbox está desmarcado, asegura que el valor se restablezca a 0.
+                    $('#costoEnsambleProductos').val(0);
+                }
+
+                //calcularCostosTransporte(undsPorEmpaque);
+
+                // Asegura que los cálculos se realicen solo si se proporcionan los valores necesarios
+                var costoMatPorUnd = peso && costoMaterial1 ? 0.98 * peso * (costoMaterial1 * porcentajeMat1 / 100 + costoMaterial2 * porcentajeMat2 / 100) * (1 + porcentajeAumento / 100) / 1000 : 0;
+                var costoPigPorUnd = peso && costoPigmento ? 0.02 * peso * costoPigmento * (1 + porcentajeAumento / 100) / 1000 : 0;
+                var costoCajaPorUnd = costoCaja && undsPorEmpaque ? costoCaja * (1 + porcentajeAumento / 100) / undsPorEmpaque : 0;
+                var costoBolsaporUnd = costoRollo && bolsasPorRollo && undsPorEmpaque ? (costoRollo / bolsasPorRollo) * (1 + porcentajeAumento / 100) / undsPorEmpaque : 0;
+    
+                document.getElementById('costoMatPorUnd').value = costoMatPorUnd.toFixed(2);
+                document.getElementById('costoPigPorUnd').value = costoPigPorUnd.toFixed(2);
+                document.getElementById('costoCajaPorUnd').value = costoCajaPorUnd.toFixed(2);
+                document.getElementById('costoBolsaporUnd').value = costoBolsaporUnd.toFixed(2);
+    
+                // Calcula Costo MP total sumando los componentes
+                var costoMP = costoMatPorUnd + costoPigPorUnd + costoCajaPorUnd + costoBolsaporUnd;
+                document.getElementById('costoMP').value = costoMP.toFixed(2); 
+    
+                if (cavidades && ciclo && undsPorEmpaque) {
+                    var cantidadMinCalculada = (cavidades / ciclo) * 3600 * 24 * 0.85;
+                    var cantidadMinColorCalculada = cantidadMinCalculada / 3;
+                    var cantidadMaxCalculada = (cavidades / ciclo) * 3600 * 24 * 24 * 0.85;
+    
+                    var unidadesMin = Math.ceil(cantidadMinCalculada / undsPorEmpaque);
+                    var cantidadMinAjustada = unidadesMin * undsPorEmpaque;
+
+                    var unidadesMinColor = Math.ceil(cantidadMinColorCalculada / undsPorEmpaque);
+                    var cantidadMinColorAjustada = unidadesMinColor * undsPorEmpaque;
+    
+                    var unidadesMax = Math.ceil(cantidadMaxCalculada / undsPorEmpaque);
+                    var cantidadMaxAjustada = unidadesMax * undsPorEmpaque;
+    
+                    document.getElementById('cantidadMin').value = formatearNumero(cantidadMinAjustada);
+                    document.getElementById('cantidadMinColor').value = formatearNumero(cantidadMinColorAjustada);
+                    document.getElementById('cantidadMax').value = formatearNumero(cantidadMaxAjustada);
+                } else {
+                    // Limpia los campos si alguno de los valores requeridos no está presente o es cero
+                    document.getElementById('cantidadMin').value = '';
+                    document.getElementById('cantidadMinColor').value = '';
+                    document.getElementById('cantidadMax').value = '';
+                }
+
+                // Si porcentajeMPPrecio o truputSeg no tienen valores válidos, limpia los campos relacionados
+                if (!porcentajeMPPrecio || !truputSeg || !cavidades || !ciclo || (porcentajeMat1 + porcentajeMat2) != 100) {
+                    document.getElementById('precioMetodo1').value = '';
+                    document.getElementById('truputSegMetodo1').value = '';
+                    document.getElementById('precioMetodo2').value = '';
+                    document.getElementById('porcentajeMPPrecioMetodo2').value = '';
+                    document.getElementById('precioMin').value = '';
+                    document.getElementById('precioTotal').value = '';
+                    document.getElementById('truputSegMetodo1').style.backgroundColor = '';
+                    document.getElementById('porcentajeMPPrecioMetodo2').style.backgroundColor = '';
+                    return; // Sale de la función para evitar hacer cálculos con valores no válidos
+                }
+
+                // Cálculos para análisis de precios
+                var precioMetodo1 = costoMP / (porcentajeMPPrecio / 100);
+                var truputSegMetodo1 = (precioMetodo1 - costoMP) * cavidades / ciclo;
+                document.getElementById('precioMetodo1').value = precioMetodo1.toFixed(2);
+                document.getElementById('truputSegMetodo1').value = truputSegMetodo1.toFixed(2);
+        
+                var precioMetodo2 = costoMP + truputSeg / (cavidades / ciclo);
+                var porcentajeMPPrecioMetodo2 = (costoMP / precioMetodo2) * 100;
+                document.getElementById('precioMetodo2').value = precioMetodo2.toFixed(2);
+                document.getElementById('porcentajeMPPrecioMetodo2').value = porcentajeMPPrecioMetodo2.toFixed(2);
+
+                document.getElementById('truputSegMetodo1').style.backgroundColor = '';
+                document.getElementById('porcentajeMPPrecioMetodo2').style.backgroundColor = '';
+
+                if (truputSegMetodo1 < truputSeg) {
+                    document.getElementById('truputSegMetodo1').style.backgroundColor = '#E6B0AA';
+                }
+                if (porcentajeMPPrecioMetodo2 > porcentajeMPPrecio) {
+                    document.getElementById('porcentajeMPPrecioMetodo2').style.backgroundColor = '#E6B0AA';
+                }
+        
+                var precioMin = Math.max(precioMetodo1, precioMetodo2);
+                //var precioMinRedondeado = Math.ceil(precioMin);
+                document.getElementById('precioMin').value = precioMin.toFixed(2);
+
+                // Calcula el precio costos adicionales
+                var totalCostosAdicionales = costoEnsambleProductos + costoLinners + costoEtiquetas + costoFajillas + costoImpresion + costoTransporte + costoAmortizacionMoldes + valorOtroCostoAdicional;
+                document.getElementById('totalCostosAdicionales').value = totalCostosAdicionales.toFixed(2);
+
+                // Calcula el precio total
+                var precioTotal = precioMin + totalCostosAdicionales;
+                var precioTotalRedondeado = Math.ceil(precioTotal);
+                document.getElementById('precioTotal').value = formatearNumero(precioTotalRedondeado);
+
+                // Si precioObjetivo no tienen valores válidos, limpia los campos relacionados
+                if (!precioObjetivo) {
+                    document.getElementById('porcentajeMPPrecioObj').value = '';
+                    document.getElementById('truputSegObj').value = ''; 
+                } else {
+                    // Calcula el % MP / Precio con el precio objetivo del cliente
+                    var porcentajeMPPrecioObj = 100 * costoMP / (precioObjetivo - totalCostosAdicionales);
+                    document.getElementById('porcentajeMPPrecioObj').value = porcentajeMPPrecioObj.toFixed(2);
+
+                    // Calcula el Truput x seg con el precio objetivo del cliente
+                    var truputSegObj = (precioObjetivo - totalCostosAdicionales - costoMP) * (cavidades / ciclo);
+                    document.getElementById('truputSegObj').value = truputSegObj.toFixed(2);
+
+                    document.getElementById('porcentajeMPPrecioObj').style.backgroundColor = '';
+                    document.getElementById('truputSegObj').style.backgroundColor = '';
+
+                    if (porcentajeMPPrecio < porcentajeMPPrecioObj) {
+                    document.getElementById('porcentajeMPPrecioObj').style.backgroundColor = '#E6B0AA';
+                    }
+                    if (truputSeg > truputSegObj) {
+                        document.getElementById('truputSegObj').style.backgroundColor = '#E6B0AA';
+                    }
+                }
+            }
+
+            var camposParaRecalcular = [
+                'peso', 'costoMaterial1', 'costoMaterial2', 'porcentajeMat1', 'porcentajeMat2', 
+                'costoPigmento', 'porcentajeAumento', 'costoCaja', 
+                'undsPorEmpaque', 'costoRollo', 'bolsasPorRollo', 'cavidades', 'ciclo', 
+                'porcentajeMPPrecio', 'truputSeg', 'costoEnsambleProductos', 'costoLinners', 
+                'costoEtiquetas', 'costoFajillas', 'costoImpresion', 'costoTransporte', 
+                'costoAmortizacionMoldes', 'valorOtroCostoAdicional', 'precioObjetivo'
+            ];
+
+            camposParaRecalcular.forEach(function(campo) {
+                document.getElementById(campo).addEventListener('input', calcularValores);
+            });
+
+            
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+        $(document).ready(function() {
+            var SalarioMin = 2190000; // Valor fijo de SalarioMin
+
+            $('#numeroDePartes').change(function() {
+                var numeroDePartes = $(this).val();
+
+                // Reinicia el costo de ensamble de productos a 0 cada vez que se cambia el número de partes
+                $('#costoEnsambleProductos').val(0);
+
+                var contenedor = $('#ensamblePartesContenedor');
+                contenedor.empty(); // Limpia el contenedor antes de añadir nuevas línea
+
+                if(numeroDePartes > 0){
+                    // Agrega una fila de encabezado si va a agregar partes
+                    contenedor.append(`
+                        <div class="row mt-2">
+                            <div class="col"><strong>N° Parte</strong></div>
+                            <div class="col"><strong>Precio por Und</strong></div>
+                            <div class="col"><strong>Maquina x Und</strong></div>
+                            <div class="col"><strong># Personas</strong></div>
+                            <div class="col"><strong>Piezas por turno</strong></div>
+                            <div class="col"><strong>Costo Ensamble</strong></div>
+                            <div class="col"><strong>Total</strong></div>
+                        </div>
+                    `);    
+
+                    for (var i = 1; i <= numeroDePartes; i++) {
+                        contenedor.append(`
+                            <div class="row mt-2 parte-${i}">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="N° Parte ${i}" name="numeroParte${i}">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control precioPorUnd" placeholder="Precio por Und ${i}" name="precioPorUnd${i}">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control maquinaEnsamble" placeholder="Maquina Ensamble ${i}" name="maquinaEnsamble${i}">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control numeroPersonas" placeholder="# Personas ${i}" name="numeroPersonas${i}">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control piezasXTurno" placeholder="Piezas por turno ${i}" name="piezasXTurno${i}">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control costoEnsamble" placeholder="Costo Ensamble ${i}" name="costoEnsamble${i}" readonly>
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control total" placeholder="Total ${i}" name="total${i}" readonly>
+                                </div>
+                            </div>
+                        `);
+                    }
+
+                    // Añade manejadores de eventos para recalcular en los inputs relevantes después de agregarlos al DOM
+                    $('.numeroPersonas, .piezasXTurno, .precioPorUnd, .maquinaEnsamble').on('input', function() {
+                        var row = $(this).closest('.row');
+                        calcularCostoEnsamble(row);
+                        calcularTotal(row);
+                    });
+                }
+                calcularValores(); // Llama a calcularValores para asegurar que el precioTotal se actualice correctamente
+            });
+
+            function calcularCostoEnsamble(row) {
+                var numeroPersonas = row.find('.numeroPersonas').val() || 0;
+                var piezasXTurno = row.find('.piezasXTurno').val() || 0;
+
+                if (numeroPersonas > 0 && piezasXTurno > 0) {
+                    var costoEnsamble = (SalarioMin * numeroPersonas / (3 * 24 * piezasXTurno)) * (1 + 0.1);
+                    row.find('.costoEnsamble').val(costoEnsamble.toFixed(2));
+                } else {
+                    row.find('.costoEnsamble').val('');
+                }
+                // Llama a calcularTotal después de actualizar costoEnsamble para asegurar que el total se actualice correctamente
+                calcularTotal(row);
+                calcularCostoEnsambleTotal();
+                calcularValores();
+            }
+
+            function calcularTotal(row) {
+                var precioPorUnd = parseFloat(row.find('.precioPorUnd').val()) || 0;
+                var maquinaEnsamble = parseFloat(row.find('.maquinaEnsamble').val()) || 0;
+                var costoEnsamble = parseFloat(row.find('.costoEnsamble').val()) || 0;
+
+                var total = precioPorUnd + maquinaEnsamble + costoEnsamble;
+                row.find('.total').val(total.toFixed(2));
+
+                calcularCostoEnsambleTotal();
+                calcularValores();
+            }
+
+            function calcularCostoEnsambleTotal() {
+                var sumaTotal = 0;
+                $('.total').each(function() {
+                    var valorTotal = parseFloat($(this).val()) || 0;
+                    sumaTotal += valorTotal;
+                });
+                $('#costoEnsambleProductos').val(sumaTotal.toFixed(2)); // Actualiza el campo con la suma total
+                calcularValores();
+            }     
+            
+            // Añadir manejadores de eventos para los campos de Linners
+            $('#personasLinner, #piezasPorTurnoLinner, #precioPorUndLinner, #maquinaPorUndLinner').on('input', function() {
+                calcularCostosLinners(); // Llama a la función que calcula los costos para Linners
+            });
+
+            // Función para calcular costos de Linners
+            function calcularCostosLinners() {
+                var personasLinner = parseFloat($('#personasLinner').val()) || 0;
+                var piezasPorTurnoLinner = parseFloat($('#piezasPorTurnoLinner').val()) || 0;
+                var precioPorUndLinner = parseFloat($('#precioPorUndLinner').val()) || 0;
+                var maquinaPorUndLinner = parseFloat($('#maquinaPorUndLinner').val()) || 0;
+                
+                // Se recalcula costoEnsambleLinner solo si hay valores en personasLinner y piezasPorTurnoLinner
+                var costoEnsambleLinner = personasLinner && piezasPorTurnoLinner ? (SalarioMin * personasLinner / (3 * 24 * piezasPorTurnoLinner)) * (1 + 0.1) : 0;
+
+                // Se asegura que costoLinners sume los valores existentes, incluyendo costoEnsambleLinner
+                var costoLinners = costoEnsambleLinner + precioPorUndLinner + maquinaPorUndLinner;
+
+                // Actualizar los campos con los resultados
+                $('#costoEnsambleLinner').val(costoEnsambleLinner.toFixed(2));
+                $('#costoLinners').val(costoLinners.toFixed(2));
+                calcularValores();
+            }
+
+            // Añadir manejadores de eventos para los campos de Etiquetas
+            $('#personasEtiqueta, #piezasPorTurnoEtiqueta, #precioPorUndEtiqueta, #maquinaPorUndEtiqueta').on('input', function() {
+                calcularCostosEtiquetas(); // Llama a la función que calcula los costos para Etiquetas
+            });
+
+            // Función para calcular costos de Etiquetas
+            function calcularCostosEtiquetas() {
+                var personasEtiqueta = parseFloat($('#personasEtiqueta').val()) || 0;
+                var piezasPorTurnoEtiqueta = parseFloat($('#piezasPorTurnoEtiqueta').val()) || 0;
+                var precioPorUndEtiqueta = parseFloat($('#precioPorUndEtiqueta').val()) || 0;
+                var maquinaPorUndEtiqueta = parseFloat($('#maquinaPorUndEtiqueta').val()) || 0;
+                
+                // Se recalcula costoEnsambleEtiqueta solo si hay valores en personasEtiqueta y piezasPorTurnoEtiqueta
+                var costoEnsambleEtiqueta = personasEtiqueta && piezasPorTurnoEtiqueta ? (SalarioMin * personasEtiqueta / (3 * 24 * piezasPorTurnoEtiqueta)) * (1 + 0.1) : 0;
+
+                var costoEtiquetas = costoEnsambleEtiqueta + precioPorUndEtiqueta + maquinaPorUndEtiqueta;
+
+                // Actualizar los campos con los resultados
+                $('#costoEnsambleEtiqueta').val(costoEnsambleEtiqueta.toFixed(2));
+                $('#costoEtiquetas').val(costoEtiquetas.toFixed(2));
+                calcularValores();
+            }
+
+            // Añadir manejadores de eventos para los campos de Fajillas
+            $('#personasFajilla, #piezasPorTurnoFajilla, #precioPorUndFajilla, #maquinaPorUndFajilla').on('input', function() {
+            calcularCostosFajillas(); // Llama a la función que calcula los costos para Fajillas
+            });
+
+            // Función para calcular costos de Fajillas
+            function calcularCostosFajillas() {
+                var personasFajilla = parseFloat($('#personasFajilla').val()) || 0;
+                var piezasPorTurnoFajilla = parseFloat($('#piezasPorTurnoFajilla').val()) || 0;
+                var precioPorUndFajilla = parseFloat($('#precioPorUndFajilla').val()) || 0;
+                var maquinaPorUndFajilla = parseFloat($('#maquinaPorUndFajilla').val()) || 0;
+                
+                // Se recalcula costoEnsambleFajilla solo si hay valores en personasFajilla y piezasPorTurnoFajilla
+                var costoEnsambleFajilla = personasFajilla && piezasPorTurnoFajilla ? (SalarioMin * personasFajilla / (3 * 24 * piezasPorTurnoFajilla)) * (1 + 0.1) : 0;
+
+                var costoFajillas = costoEnsambleFajilla + precioPorUndFajilla + maquinaPorUndFajilla;
+
+                // Actualizar los campos con los resultados
+                $('#costoEnsambleFajilla').val(costoEnsambleFajilla.toFixed(2));
+                $('#costoFajillas').val(costoFajillas.toFixed(2));
+                calcularValores();
+            }
+
+            // Añadir manejadores de eventos para los campos de Impresion
+            $('#costoPorUndImpresion').on('input', function() {
+            calcularCostosImpresion(); // Llama a la función que calcula los costos para Impresion
+            });
+
+            // Función para calcular costos de Impresion
+            function calcularCostosImpresion() {
+                var costoPorUndImpresion = parseFloat($('#costoPorUndImpresion').val()) || 0;
+                
+                var costoImpresion = costoPorUndImpresion;
+
+                // Actualizar los campos con los resultados
+                $('#costoImpresion').val(costoImpresion.toFixed(2));
+                calcularValores();
+            }
+
+            // Añadir manejadores de eventos para los campos de Transporte
+            $('#costoPorEmpaque').on('input', function() {
+                calcularCostosTransporte(); // Llama a la función que calcula los costos para Transporte
+            });
+
+            // Función para calcular costos de Transporte
+            function calcularCostosTransporte() {
+                var costoPorEmpaque = parseFloat($('#costoPorEmpaque').val()) || 0;
+                var undsPorEmpaque = parseFloat($('#undsPorEmpaque').val()) || 0;
+                var costoTransporte = 0;
+                if (undsPorEmpaque > 0) { // Asegurar que no dividimos por 0
+                    costoTransporte = costoPorEmpaque / undsPorEmpaque;
+                }
+                $('#costoTransporte').val(costoTransporte.toFixed(2));
+                calcularValores();
+            }
+
+        });
+        
+    });
+    </script>
+
+    <!-- Script para manejar las casillas de verificación y habilitar/deshabilitar campos -->
+    <script>
+        $(document).ready(function() {
+            $('#incluyeCaja').change(function() {
+                if(this.checked) {
+                    $('#caja, #tamanoCaja, #costoCaja').prop('disabled', false);
+                } else {
+                    $('#caja, #tamanoCaja, #costoCaja').prop('disabled', true);
+                }
+            });
+            
+            $('#incluyeBolsa').change(function() {
+                if(this.checked) {
+                    $('#bolsa, #costoRollo, #bolsasPorRollo, #costoBolsa').prop('disabled', false);
+                } else {
+                    $('#bolsa, #costoRollo, #bolsasPorRollo, #costoBolsa').prop('disabled', true);
+                }
+            });
+
+            // Ensamble con otros productos
+            $('#ensambleProductos').change(function() {
+                var isChecked = $(this).is(':checked');
+                $('#costoEnsambleProductos').prop('disabled', !isChecked);
+                $('#numeroDePartes').prop('disabled', !isChecked); 
+                if (!isChecked) {
+                    $('#numeroDePartes').val(0); // Establece N° de partes en 0 si el checkbox no está marcado
+                    $('#ensamblePartesContenedor').empty(); // Limpia el contenedor de partes dinámicas     
+                    $('#costoEnsambleProductos').val(0);
+                    $('#partesContenedor').hide();
+                    $('#totaldeensamble').hide();
+                } else {
+                    $('#partesContenedor').show(); // Muestra el contenedor cuando el checkbox está marcado
+                    $('#totaldeensamble').show();
+                }
+                calcularValores();
+            });
+
+            // Linners
+            $('#linners').change(function() {
+                if ($(this).is(':checked')) {
+                    // Muestra los campos y títulos de Linners
+                    $('#linnersTitles, #linnersFields').show();
+                    // Habilita los inputs dentro de #linnersFields
+                    $('#linnersFields input').prop('disabled', false);
+                } else {
+                    // Oculta los campos y títulos de Linners
+                    $('#linnersTitles, #linnersFields').hide();
+                    // Deshabilita y limpia los inputs dentro de #linnersFields
+                    $('#linnersFields input').prop('disabled', true).val('');
+                    // Específicamente establece el valor de los campos calculados a 0
+                    $('#costoEnsambleLinner, #costoLinners').val('0');
+                    // Llama a calcularValores para actualizar cualquier cálculo dependiente
+                    calcularValores();
+                }
+            });
+
+            // Etiquetas
+            $('#etiquetas').change(function() {
+                if ($(this).is(':checked')) {
+                    // Muestra los campos y títulos de Etiquetas
+                    $('#etiquetasTitles, #etiquetasFields').show();
+                    // Habilita los inputs dentro de #etiquetasFields
+                    $('#etiquetasFields input').prop('disabled', false);
+                } else {
+                    // Oculta los campos y títulos de Etiquetas
+                    $('#etiquetasTitles, #etiquetasFields').hide();
+                    // Deshabilita y limpia los inputs dentro de #etiquetasFields
+                    $('#etiquetasFields input').prop('disabled', true).val('');
+                    // Específicamente establece el valor de los campos calculados a 0
+                    $('#costoPosturaEtiqueta, #costoEtiquetas').val('0');
+                    // Llama a calcularValores para actualizar cualquier cálculo dependiente
+                    calcularValores();
+                }
+            });
+
+            // Fajillas
+            $('#fajillas').change(function() {
+                if ($(this).is(':checked')) {
+                    // Muestra los campos y títulos de Fajillas
+                    $('#fajillasTitles, #fajillasFields').show();
+                    // Habilita los inputs dentro de #fajillasFields
+                    $('#fajillasFields input').prop('disabled', false);
+                } else {
+                    // Oculta los campos y títulos de Fajillas
+                    $('#fajillasTitles, #fajillasFields').hide();
+                    // Deshabilita y limpia los inputs dentro de #fajillasFields
+                    $('#fajillasFields input').prop('disabled', true).val('');
+                    // Específicamente establece el valor de los campos calculados a 0
+                    $('#costoPosturaFajilla, #costoFajillas').val('0');
+                    // Llama a calcularValores para actualizar cualquier cálculo dependiente
+                    calcularValores();
+                }
+            });
+
+            // Impresión
+            $('#impresion').change(function() {
+                if ($(this).is(':checked')) {
+                    // Muestra los campos y títulos de Impresion
+                    $('#impresionTitles, #impresionFields').show();
+                    // Habilita los inputs dentro de #impresionFields
+                    $('#impresionFields input').prop('disabled', false);
+                } else {
+                    // Oculta los campos y títulos de Impresion
+                    $('#impresionTitles, #impresionFields').hide();
+                    // Deshabilita y limpia los inputs dentro de #impresionFields
+                    $('#impresionFields input').prop('disabled', true).val('');
+                    // Específicamente establece el valor de los campos calculados a 0
+                    $('#costoImpresion').val('0');
+                    // Llama a calcularValores para actualizar cualquier cálculo dependiente
+                    calcularValores();
+                }
+            });
+
+            // Transporte
+            $('#transporte').change(function() {
+                if ($(this).is(':checked')) {
+                    // Muestra los campos y títulos de Transporte
+                    $('#transporteTitles, #transporteFields').show();
+                    // Habilita los inputs dentro de #transporteFields
+                    $('#transporteFields input').prop('disabled', false);
+                } else {
+                    // Oculta los campos y títulos de Transporte
+                    $('#transporteTitles, #transporteFields').hide();
+                    // Deshabilita y limpia los inputs dentro de #transporteFields
+                    $('#transporteFields input').prop('disabled', true).val('');
+                    // Específicamente establece el valor de los campos calculados a 0
+                    $('#costoTransporte').val('0');
+                    // Llama a calcularValores para actualizar cualquier cálculo dependiente
+                    calcularValores();
+                }
+            });
+
+            // Amortización moldes
+            $('#amortizacionMoldes').change(function() {
+                if ($(this).is(':checked')) {
+                    // Muestra los campos y títulos de Moldes
+                    $('#moldeTitles, #moldeFields').show();
+                    // Habilita los inputs dentro de #moldeFields
+                    $('#moldeFields input').prop('disabled', false);
+                } else {
+                    // Oculta los campos y títulos de molde
+                    $('#moldeTitles, #moldeFields').hide();
+                    // Deshabilita y limpia los inputs dentro de #moldeFields
+                    $('#moldeFields input').prop('disabled', true).val('');
+                    // Llama a calcularValores para actualizar cualquier cálculo dependiente
+                    calcularValores();
+                }
+            });
+
+            // Amortización otro costo
+            $('#otroCostoAdicional').change(function() {
+                if ($(this).is(':checked')) {
+                    // Muestra los campos y títulos de otro costo
+                    $('#otroCostoTitles, #otroCostoFields').show();
+                    // Habilita los inputs dentro de #otroCostoFields
+                    $('#otroCostoFields input').prop('disabled', false);
+                } else {
+                    // Oculta los campos y títulos de otro costo
+                    $('#otroCostoTitles, #otroCostoFields').hide();
+                    // Deshabilita y limpia los inputs dentro de #otroCostoFields
+                    $('#otroCostoFields input').prop('disabled', true).val('');
+                    // Llama a calcularValores para actualizar cualquier cálculo dependiente
+                    calcularValores();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
