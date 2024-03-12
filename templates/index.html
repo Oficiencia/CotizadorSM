@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-md-1 form-group">
                                 <label for="porcentajeMat1">% Mat1:</label>
-                                <input type="number" step="0.01" class="form-control" id="porcentajeMat1" name="porcentajeMat1" required>
+                                <input type="number" step="0.01" class="form-control" id="porcentajeMat1" name="porcentajeMat1" required onchange="checkPorcentaje()">
                             </div>
                         
                             <!-- Material 2 -->
@@ -591,8 +591,6 @@
                     $('#costoEnsambleProductos').val(0);
                 }
 
-                //calcularCostosTransporte(undsPorEmpaque);
-
                 // Asegura que los cálculos se realicen solo si se proporcionan los valores necesarios
                 var costoMatPorUnd = peso && costoMaterial1 ? 0.98 * peso * (costoMaterial1 * porcentajeMat1 / 100 + costoMaterial2 * porcentajeMat2 / 100) * (1 + porcentajeAumento / 100) / 1000 : 0;
                 var costoPigPorUnd = peso && costoPigmento ? 0.02 * peso * costoPigmento * (1 + porcentajeAumento / 100) / 1000 : 0;
@@ -717,7 +715,14 @@
                 document.getElementById(campo).addEventListener('input', calcularValores);
             });
 
-            
+            function checkPorcentaje() {
+                var porcentajeMat1 = document.getElementById('porcentajeMat1').value;
+                var requiredStatus = !(porcentajeMat1 == 100); // Si porcentajeMat1 es 100, requiredStatus será false; de lo contrario, true.
+                
+                document.getElementById('material2').required = requiredStatus;
+                document.getElementById('costoMaterial2').required = requiredStatus;
+                document.getElementById('porcentajeMat2').required = requiredStatus;
+            }
 
         document.addEventListener("DOMContentLoaded", function() {
 
@@ -937,8 +942,10 @@
             $('#incluyeCaja').change(function() {
                 if(this.checked) {
                     $('#caja, #tamanoCaja, #costoCaja').prop('disabled', false);
+                    $('#tamanoCaja, #costoCaja').prop('required', true); // Hacerlos requeridos
                 } else {
                     $('#caja, #tamanoCaja, #costoCaja').prop('disabled', true);
+                    $('#tamanoCaja, #costoCaja').prop('required', false); // Deshabilitar y quitar requerido
                 }
             });
             
