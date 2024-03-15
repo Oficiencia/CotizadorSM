@@ -23,7 +23,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4 form-group">
-                    <label for="codigoProducto">Código del Producto:</label>
+                    <label for="codigoProducto">Código (Familia) del Producto:</label>
                     <input type="number" step="0.01" class="form-control" id="codigoProducto" name="codigoProducto" required>
                 </div>
                 <div class="col-md-4 form-group">
@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-md-1 form-group">
                                 <label for="porcentajeMat2">% Mat2:</label>
-                                <input type="number" step="0.01" class="form-control" id="porcentajeMat2" name="porcentajeMat2" required>
+                                <input type="number" step="0.01" class="form-control" id="porcentajeMat2" name="porcentajeMat2" required onchange="checkPorcentaje()">
                             </div>
                         
                             <!-- Costo Material x und -->
@@ -716,12 +716,35 @@
             });
 
             function checkPorcentaje() {
-                var porcentajeMat1 = document.getElementById('porcentajeMat1').value;
-                var requiredStatus = !(porcentajeMat1 == 100); // Si porcentajeMat1 es 100, requiredStatus será false; de lo contrario, true.
-                
-                document.getElementById('material2').required = requiredStatus;
-                document.getElementById('costoMaterial2').required = requiredStatus;
-                document.getElementById('porcentajeMat2').required = requiredStatus;
+                var porcentajeMat1 = parseFloat(document.getElementById('porcentajeMat1').value) || 0;
+                var porcentajeMat2 = parseFloat(document.getElementById('porcentajeMat2').value) || 0;
+
+                // Asegurar que porcentajeMat1 no sea mayor a 100
+                if (porcentajeMat1 > 100) {
+                    porcentajeMat1 = 100; // Restablecer a 100
+                    document.getElementById('porcentajeMat1').value = porcentajeMat1; // Actualizar el valor en el campo
+                    alert("El porcentaje no puede ser mayor a 100."); // Notificar al usuario
+                }
+
+                // Asegurar que la suma de porcentajeMat1 y porcentajeMat2 no sea mayor a 100
+                if (porcentajeMat1 + porcentajeMat2 > 100) {
+                    porcentajeMat2 = 100 - porcentajeMat1; // Ajustar porcentajeMat2 para que la suma no exceda 100
+                    document.getElementById('porcentajeMat2').value = porcentajeMat2; // Actualizar el valor en el campo
+                    alert("La suma de los porcentajes no puede ser mayor a 100."); // Notificar al usuario
+                }
+
+                var disabledStatus = (porcentajeMat1 == 100); // Si porcentajeMat1 es 100, disabledStatus será true; de lo contrario, false.
+
+                document.getElementById('material2').disabled = disabledStatus;
+                document.getElementById('costoMaterial2').disabled = disabledStatus;
+                document.getElementById('porcentajeMat2').disabled = disabledStatus;
+
+                // Limpiar los valores de los campos al deshabilitarlos
+                if (disabledStatus) {
+                    document.getElementById('material2').value = '';
+                    document.getElementById('costoMaterial2').value = '';
+                    document.getElementById('porcentajeMat2').value = '';
+                }
             }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -756,19 +779,19 @@
                         contenedor.append(`
                             <div class="row mt-2 parte-${i}">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="N° Parte ${i}" name="numeroParte${i}">
+                                    <input type="text" class="form-control" placeholder="N° Parte ${i}" name="numeroParte${i}" required>
                                 </div>
                                 <div class="col">
-                                    <input type="number" class="form-control precioPorUnd" placeholder="Precio por Und ${i}" name="precioPorUnd${i}">
+                                    <input type="number" step="0.01" class="form-control precioPorUnd" placeholder="Precio por Und ${i}" name="precioPorUnd${i}" required>
                                 </div>
                                 <div class="col">
-                                    <input type="number" class="form-control maquinaEnsamble" placeholder="Maquina Ensamble ${i}" name="maquinaEnsamble${i}">
+                                    <input type="number" step="0.01" class="form-control maquinaEnsamble" placeholder="Maquina Ensamble ${i}" name="maquinaEnsamble${i}" required>
                                 </div>
                                 <div class="col">
-                                    <input type="number" class="form-control numeroPersonas" placeholder="# Personas ${i}" name="numeroPersonas${i}">
+                                    <input type="number" class="form-control numeroPersonas" placeholder="# Personas ${i}" name="numeroPersonas${i}" required>
                                 </div>
                                 <div class="col">
-                                    <input type="number" class="form-control piezasXTurno" placeholder="Piezas por turno ${i}" name="piezasXTurno${i}">
+                                    <input type="number" class="form-control piezasXTurno" placeholder="Piezas por turno ${i}" name="piezasXTurno${i}" required>
                                 </div>
                                 <div class="col">
                                     <input type="number" class="form-control costoEnsamble" placeholder="Costo Ensamble ${i}" name="costoEnsamble${i}" readonly>
@@ -952,8 +975,10 @@
             $('#incluyeBolsa').change(function() {
                 if(this.checked) {
                     $('#bolsa, #costoRollo, #bolsasPorRollo, #costoBolsa').prop('disabled', false);
+                    $('#costoRollo, #bolsasPorRollo').prop('required', true); // Hacerlos requeridos
                 } else {
                     $('#bolsa, #costoRollo, #bolsasPorRollo, #costoBolsa').prop('disabled', true);
+                    $('#costoRollo, #bolsasPorRollo').prop('required', false); // Deshabilitar y quitar requerido
                 }
             });
 
@@ -963,7 +988,7 @@
                 $('#costoEnsambleProductos').prop('disabled', !isChecked);
                 $('#numeroDePartes').prop('disabled', !isChecked); 
                 if (!isChecked) {
-                    $('#numeroDePartes').val(0); // Establece N° de partes en 0 si el checkbox no está marcado
+                    $('#numeroDePartes').val(0).prop('required', false); // Establece N° de partes en 0 si el checkbox no está marcado
                     $('#ensamblePartesContenedor').empty(); // Limpia el contenedor de partes dinámicas     
                     $('#costoEnsambleProductos').val(0);
                     $('#partesContenedor').hide();
@@ -971,6 +996,7 @@
                 } else {
                     $('#partesContenedor').show(); // Muestra el contenedor cuando el checkbox está marcado
                     $('#totaldeensamble').show();
+                    $('#numeroDePartes').prop('required', true);
                 }
                 calcularValores();
             });
@@ -981,12 +1007,12 @@
                     // Muestra los campos y títulos de Linners
                     $('#linnersTitles, #linnersFields').show();
                     // Habilita los inputs dentro de #linnersFields
-                    $('#linnersFields input').prop('disabled', false);
+                    $('#linnersFields input').prop('disabled', false).prop('required', true);
                 } else {
                     // Oculta los campos y títulos de Linners
                     $('#linnersTitles, #linnersFields').hide();
                     // Deshabilita y limpia los inputs dentro de #linnersFields
-                    $('#linnersFields input').prop('disabled', true).val('');
+                    $('#linnersFields input').prop('disabled', true).val('').prop('required', false);
                     // Específicamente establece el valor de los campos calculados a 0
                     $('#costoEnsambleLinner, #costoLinners').val('0');
                     // Llama a calcularValores para actualizar cualquier cálculo dependiente
@@ -1000,12 +1026,12 @@
                     // Muestra los campos y títulos de Etiquetas
                     $('#etiquetasTitles, #etiquetasFields').show();
                     // Habilita los inputs dentro de #etiquetasFields
-                    $('#etiquetasFields input').prop('disabled', false);
+                    $('#etiquetasFields input').prop('disabled', false).prop('required', true);
                 } else {
                     // Oculta los campos y títulos de Etiquetas
                     $('#etiquetasTitles, #etiquetasFields').hide();
                     // Deshabilita y limpia los inputs dentro de #etiquetasFields
-                    $('#etiquetasFields input').prop('disabled', true).val('');
+                    $('#etiquetasFields input').prop('disabled', true).val('').prop('required', false);
                     // Específicamente establece el valor de los campos calculados a 0
                     $('#costoPosturaEtiqueta, #costoEtiquetas').val('0');
                     // Llama a calcularValores para actualizar cualquier cálculo dependiente
@@ -1019,12 +1045,12 @@
                     // Muestra los campos y títulos de Fajillas
                     $('#fajillasTitles, #fajillasFields').show();
                     // Habilita los inputs dentro de #fajillasFields
-                    $('#fajillasFields input').prop('disabled', false);
+                    $('#fajillasFields input').prop('disabled', false).prop('required', true);
                 } else {
                     // Oculta los campos y títulos de Fajillas
                     $('#fajillasTitles, #fajillasFields').hide();
                     // Deshabilita y limpia los inputs dentro de #fajillasFields
-                    $('#fajillasFields input').prop('disabled', true).val('');
+                    $('#fajillasFields input').prop('disabled', true).val('').prop('required', false);
                     // Específicamente establece el valor de los campos calculados a 0
                     $('#costoPosturaFajilla, #costoFajillas').val('0');
                     // Llama a calcularValores para actualizar cualquier cálculo dependiente
@@ -1038,12 +1064,12 @@
                     // Muestra los campos y títulos de Impresion
                     $('#impresionTitles, #impresionFields').show();
                     // Habilita los inputs dentro de #impresionFields
-                    $('#impresionFields input').prop('disabled', false);
+                    $('#impresionFields input').prop('disabled', false).prop('required', true);
                 } else {
                     // Oculta los campos y títulos de Impresion
                     $('#impresionTitles, #impresionFields').hide();
                     // Deshabilita y limpia los inputs dentro de #impresionFields
-                    $('#impresionFields input').prop('disabled', true).val('');
+                    $('#impresionFields input').prop('disabled', true).val('').prop('required', false);
                     // Específicamente establece el valor de los campos calculados a 0
                     $('#costoImpresion').val('0');
                     // Llama a calcularValores para actualizar cualquier cálculo dependiente
@@ -1057,12 +1083,12 @@
                     // Muestra los campos y títulos de Transporte
                     $('#transporteTitles, #transporteFields').show();
                     // Habilita los inputs dentro de #transporteFields
-                    $('#transporteFields input').prop('disabled', false);
+                    $('#transporteFields input').prop('disabled', false).prop('required', true);
                 } else {
                     // Oculta los campos y títulos de Transporte
                     $('#transporteTitles, #transporteFields').hide();
                     // Deshabilita y limpia los inputs dentro de #transporteFields
-                    $('#transporteFields input').prop('disabled', true).val('');
+                    $('#transporteFields input').prop('disabled', true).val('').prop('required', false);
                     // Específicamente establece el valor de los campos calculados a 0
                     $('#costoTransporte').val('0');
                     // Llama a calcularValores para actualizar cualquier cálculo dependiente
@@ -1076,12 +1102,12 @@
                     // Muestra los campos y títulos de Moldes
                     $('#moldeTitles, #moldeFields').show();
                     // Habilita los inputs dentro de #moldeFields
-                    $('#moldeFields input').prop('disabled', false);
+                    $('#moldeFields input').prop('disabled', false).prop('required', true);
                 } else {
                     // Oculta los campos y títulos de molde
                     $('#moldeTitles, #moldeFields').hide();
                     // Deshabilita y limpia los inputs dentro de #moldeFields
-                    $('#moldeFields input').prop('disabled', true).val('');
+                    $('#moldeFields input').prop('disabled', true).val('').prop('required', false);
                     // Llama a calcularValores para actualizar cualquier cálculo dependiente
                     calcularValores();
                 }
@@ -1093,12 +1119,12 @@
                     // Muestra los campos y títulos de otro costo
                     $('#otroCostoTitles, #otroCostoFields').show();
                     // Habilita los inputs dentro de #otroCostoFields
-                    $('#otroCostoFields input').prop('disabled', false);
+                    $('#otroCostoFields input').prop('disabled', false).prop('required', true);
                 } else {
                     // Oculta los campos y títulos de otro costo
                     $('#otroCostoTitles, #otroCostoFields').hide();
                     // Deshabilita y limpia los inputs dentro de #otroCostoFields
-                    $('#otroCostoFields input').prop('disabled', true).val('');
+                    $('#otroCostoFields input').prop('disabled', true).val('').prop('required', false);
                     // Llama a calcularValores para actualizar cualquier cálculo dependiente
                     calcularValores();
                 }
