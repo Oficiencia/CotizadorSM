@@ -13,26 +13,31 @@
 <body>
     <div class="container mt-5">
         <h2>Formulario de Cotización de Productos</h2>
-        <form action="/guardar_cotizacion" method="post" class="mt-4">
+        <form action="" method="post" class="mt-4">
+            {{ form.hidden_tag() }}
             <!-- N° Cotización -->
             <div class="row mb-3">
                 <div class="col-md-2 text-center">
-                    <label for="numeroCotizacion">N° Cotización:</label>
-                    <input type="text" class="form-control" id="numeroCotizacion" name="numeroCotizacion" style="text-align: center;" required>
+                    {{ form.numeroCotizacion.label(class="form-label") }}
+                    {{ form.numeroCotizacion(class="form-control", style="text-align: center;") }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 form-group">
-                    <label for="codigoProducto">Código (Familia) del Producto:</label>
-                    <input type="number" step="0.01" class="form-control" id="codigoProducto" name="codigoProducto" required>
+                <div class="col-md-3 form-group">
+                    {{ form.codigoProducto.label(class="form-label") }}
+                    {{ form.codigoProducto(class="form-control") }} 
                 </div>
-                <div class="col-md-4 form-group">
-                    <label for="nombreProducto">Nombre del Producto:</label>
-                    <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" required>
+                <div class="col-md-3 form-group">
+                    {{ form.familiaProducto.label(class="form-label") }}
+                    {{ form.familiaProducto(class="form-control") }} 
                 </div>
-                <div class="col-md-4 form-group">
-                    <label for="cliente">Cliente:</label>
-                    <input type="text" class="form-control" id="cliente" name="cliente" required>
+                <div class="col-md-3 form-group">
+                    {{ form.nombreProducto.label(class="form-label") }}
+                    {{ form.nombreProducto(class="form-control") }}
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form.cliente.label(class="form-label") }}
+                    {{ form.cliente(class="form-control") }}
                 </div>
             </div>
 
@@ -43,41 +48,41 @@
                     <div class="p-3 border rounded">
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label for="peso">Peso (gr):</label>
-                                <input type="number" step="0.01" class="form-control" id="peso" name="peso" required>
+                                {{ form.peso.label(class="form-label") }}
+                                {{ form.peso(class="form-control", step="0.01") }}
                             </div>
                             <div class="col-md-6 form-group">
-                                <label for="porcentajeAumento">% Aumento:</label>
-                                <input type="number" step="0.01" class="form-control" id="porcentajeAumento" name="porcentajeAumento" value="10" required>
+                                {{ form.porcentajeAumento.label(class="form-label") }}
+                                {{ form.porcentajeAumento(class="form-control", step="0.01") }}
                             </div>
                         </div>
                         <div class="row">
                             <!-- Material 1 -->
                             <div class="col-md-2 form-group">
-                                <label for="material1">Material 1:</label>
-                                <input type="text" class="form-control" id="material1" name="material1" required>
+                                {{ form.material1.label(class="form-label") }}
+                                {{ form.material1(class="form-control") }}
                             </div>
                             <div class="col-md-2 form-group">
-                                <label for="costoMaterial1">Costo Material 1:</label>
-                                <input type="number" step="0.01" class="form-control" id="costoMaterial1" name="costoMaterial1" required>
+                                {{ form.costoMaterial1.label(class="form-label") }}
+                                {{ form.costoMaterial1(class="form-control", step="0.01") }}
                             </div>
                             <div class="col-md-1 form-group">
-                                <label for="porcentajeMat1">% Mat1:</label>
-                                <input type="number" step="0.01" class="form-control" id="porcentajeMat1" name="porcentajeMat1" required onchange="checkPorcentaje()">
+                                {{ form.porcentajeMat1.label(class="form-label") }}
+                                {{ form.porcentajeMat1(class="form-control", step="0.01", onchange="checkPorcentaje()") }}
                             </div>
                         
                             <!-- Material 2 -->
                             <div class="col-md-2 form-group">
-                                <label for="material2">Material 2:</label>
-                                <input type="text" class="form-control" id="material2" name="material2" required>
+                                {{ form.material2.label(class="form-label") }}
+                                {{ form.material2(class="form-control", required=True) }}
                             </div>
                             <div class="col-md-2 form-group">
-                                <label for="costoMaterial2">Costo Material 2:</label>
-                                <input type="number" step="0.01" class="form-control" id="costoMaterial2" name="costoMaterial2" required>
+                                {{ form.costoMaterial2.label(class="form-label") }}
+                                {{ form.costoMaterial2(class="form-control", step="0.01", required=True) }}
                             </div>
                             <div class="col-md-1 form-group">
-                                <label for="porcentajeMat2">% Mat2:</label>
-                                <input type="number" step="0.01" class="form-control" id="porcentajeMat2" name="porcentajeMat2" required onchange="checkPorcentaje()">
+                                {{ form.porcentajeMat2.label(class="form-label") }}
+                                {{ form.porcentajeMat2(class="form-control", step="0.01", required=True, onchange="checkPorcentaje()") }}
                             </div>
                         
                             <!-- Costo Material x und -->
@@ -90,12 +95,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4 form-group">
-                                <label for="pigmento">Pigmento:</label>
-                                <input type="text" class="form-control" id="pigmento" name="pigmento" required>
+                                {{ form.pigmento.label(class="form-label") }}
+                                {{ form.pigmento(class="form-control", required=True) }}
                             </div>
                             <div class="col-md-4 form-group">
-                                <label for="costoPigmento">Costo Pigmento:</label>
-                                <input type="number" step="0.01" class="form-control" id="costoPigmento" name="costoPigmento" required>
+                                {{ form.costoPigmento.label(class="form-label") }}
+                                {{ form.costoPigmento(class="form-control", step="0.01", required=True) }}
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="costoPigPorUnd">Costo Pigmento x und:</label>
@@ -106,8 +111,8 @@
                         <h5 class="mt-4">Empaque</h5>
                         <div class="row">
                             <div class="col-md-3 form-group">
-                                <label for="undsPorEmpaque"># unds por empaque:</label>
-                                <input type="number" class="form-control" id="undsPorEmpaque" name="undsPorEmpaque" required>
+                                {{ form.undsPorEmpaque.label(class="form-label") }}
+                                {{ form.undsPorEmpaque(class="form-control", required=True) }}
                             </div>
                         </div>
 
@@ -122,12 +127,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3 form-group">
-                                <label for="tamanoCaja">Tamaño:</label>
-                                <input type="text" class="form-control" id="tamanoCaja" name="tamanoCaja" disabled>
+                                {{ form.tamanoCaja.label(class="form-label") }}
+                                {{ form.tamanoCaja(class="form-control", id="tamanoCaja", disabled=True) }}
                             </div>
                             <div class="col-md-3 form-group">
-                                <label for="costoCaja">Costo:</label>
-                                <input type="number" step="0.01" class="form-control" id="costoCaja" name="costoCaja" disabled>
+                                {{ form.costoCaja.label(class="form-label") }}
+                                {{ form.costoCaja(class="form-control", id="costoCaja", step="0.01", disabled=True) }}
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="costoCajaPorUnd">Costo Caja x und:</label>
@@ -146,12 +151,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3 form-group">
-                                <label for="costoRollo">Costo Rollo:</label>
-                                <input type="number" step="0.01" class="form-control" id="costoRollo" name="costoRollo" disabled>
+                                {{ form.costoRollo.label(class="form-label") }}
+                                {{ form.costoRollo(class="form-control", id="costoRollo", step="0.01", disabled=True) }}
                             </div>
                             <div class="col-md-3 form-group">
-                                <label for="bolsasPorRollo"># bolsas por rollo:</label>
-                                <input type="number" class="form-control" id="bolsasPorRollo" name="bolsasPorRollo" disabled>
+                                {{ form.bolsasPorRollo.label(class="form-label") }}
+                                {{ form.bolsasPorRollo(class="form-control", id="bolsasPorRollo", disabled=True) }}
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="costoBolsaporUnd">Costo Bolsa x und:</label>
@@ -177,13 +182,13 @@
                     <!-- Campo # Cavidades -->
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label for="cavidades"># Cavidades:</label>
-                            <input type="number" class="form-control" id="cavidades" name="cavidades" required>
+                            {{ form.cavidades.label(class="form-label") }}
+                            {{ form.cavidades(class="form-control", required=True) }}
                         </div>
                         <!-- Campo Ciclo (segundos) -->
                         <div class="col-md-6 form-group">
-                            <label for="ciclo">Ciclo (segundos):</label>
-                            <input type="number" step="0.01" class="form-control" id="ciclo" name="ciclo" required>
+                            {{ form.ciclo.label(class="form-label") }}
+                            {{ form.ciclo(class="form-control", step="0.01", required=True) }}
                         </div>
                     </div>
                     
@@ -216,25 +221,25 @@
                     <!-- Campo Máquina -->
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label for="maquinaCotizacion">Máquina:</label>
-                            <input type="text" class="form-control" id="maquinaCotizacion" name="maquinaCotizacion" required>
+                            {{ form.maquinaCotizacion.label(class="form-label") }}
+                            {{ form.maquinaCotizacion(class="form-control", required=True) }}
                         </div>
                         <!-- Campo Producto que más se fabrica -->
                         <div class="col-md-6 form-group">
-                            <label for="productoFrecuenteCotizacion">Producto que más se fabrica:</label>
-                            <input type="text" class="form-control" id="productoFrecuenteCotizacion" name="productoFrecuenteCotizacion" required>
+                            {{ form.productoFrecuenteCotizacion.label(class="form-label") }}
+                            {{ form.productoFrecuenteCotizacion(class="form-control", required=True) }}
                         </div>
                     </div>
                     <!-- Campo % MP / Precio -->
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label for="porcentajeMPPrecio">% MP / Precio:</label>
-                            <input type="number" step="0.01" class="form-control" id="porcentajeMPPrecio" name="porcentajeMPPrecio" required>
+                            {{ form.porcentajeMPPrecio.label(class="form-label") }}
+                            {{ form.porcentajeMPPrecio(class="form-control", step="0.01", required=True) }}
                         </div>
                         <!-- Campo Truput x Seg -->
                         <div class="col-md-6 form-group">
-                            <label for="truputSeg">Truput x Seg:</label>
-                            <input type="number" step="0.01" class="form-control" id="truputSeg" name="truputSeg" required>
+                            {{ form.truputSeg.label(class="form-label") }}
+                            {{ form.truputSeg(class="form-control", step="0.01", required=True) }}
                         </div>
                     </div>
                 </div>
@@ -544,7 +549,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary" id="guardarCotizacion">Guardar Cotización</button>
+                {{ form.guardar(class="btn btn-primary") }}
             </div>
         </div>
         <div style="margin-bottom: 40px;"></div>
@@ -910,13 +915,13 @@
                 var precioPorUndFajilla = parseFloat($('#precioPorUndFajilla').val()) || 0;
                 var maquinaPorUndFajilla = parseFloat($('#maquinaPorUndFajilla').val()) || 0;
                 
-                // Se recalcula costoEnsambleFajilla solo si hay valores en personasFajilla y piezasPorTurnoFajilla
-                var costoEnsambleFajilla = personasFajilla && piezasPorTurnoFajilla ? (SalarioMin * personasFajilla / (3 * 24 * piezasPorTurnoFajilla)) * (1 + 0.1) : 0;
+                // Se recalcula costoPosturaFajilla solo si hay valores en personasFajilla y piezasPorTurnoFajilla
+                var costoPosturaFajilla = personasFajilla && piezasPorTurnoFajilla ? (SalarioMin * personasFajilla / (3 * 24 * piezasPorTurnoFajilla)) * (1 + 0.1) : 0;
 
-                var costoFajillas = costoEnsambleFajilla + precioPorUndFajilla + maquinaPorUndFajilla;
+                var costoFajillas = costoPosturaFajilla + precioPorUndFajilla + maquinaPorUndFajilla;
 
                 // Actualizar los campos con los resultados
-                $('#costoEnsambleFajilla').val(costoEnsambleFajilla.toFixed(2));
+                $('#costoPosturaFajilla').val(costoPosturaFajilla.toFixed(2));
                 $('#costoFajillas').val(costoFajillas.toFixed(2));
                 calcularValores();
             }
