@@ -296,15 +296,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="ensambleProductos">
+                                {{ form.ensambleProductos(class="form-check-input") }}
                                 <label class="form-check-label" for="ensambleProductos"><strong>Ensamble con otros productos</strong></label>
                             </div>
                         </div>
                     </div>  
                     <div class="row" id="partesContenedor" style="display: none;"> 
                         <div class="col-md-2 form-group">
-                            <label for="numeroDePartes">N° de partes:</label>
-                            <input type="number" class="form-control" id="numeroDePartes" name="numeroDePartes" disabled>
+                            {{ form.numeroDePartes.label }}
+                            {{ form.numeroDePartes(class="form-control", id="numeroDePartes", disabled=True) }}
                         </div>
                     </div>
                     <!-- Contenedor para partes dinámicas -->

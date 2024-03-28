@@ -36,6 +36,8 @@ class CotizacionForm(FlaskForm):
     productoFrecuenteCotizacion = StringField('Producto que más se fabrica', validators=[DataRequired()])
     porcentajeMPPrecio = FloatField('% MP / Precio', validators=[DataRequired()])
     truputSeg = FloatField('Truput x seg', validators=[DataRequired()])
+    ensambleProductos = BooleanField('Ensamble con otros productos')
+    numeroDePartes = IntegerField('Número de partes', validators=[Optional()], default=0)
     guardar = SubmitField('Guardar Cotización')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -64,6 +66,8 @@ def index():
         productoFrecuenteCotizacion = form.productoFrecuenteCotizacion.data
         porcentajeMPPrecio = form.porcentajeMPPrecio.data
         truputSeg = form.truputSeg.data
+        ensambleProductos = form.ensambleProductos.data
+        numeroDePartes = int(form.numeroDePartes.data) if ensambleProductos else 0
 
         costoMat_por_und = request.form.get('costoMatPorUnd')
         costoPig_por_und = request.form.get('costoPigPorUnd')
@@ -78,6 +82,7 @@ def index():
         precioMetodo2 = request.form.get('precioMetodo2')
         porcentajeMPPrecioMetodo2 = request.form.get('porcentajeMPPrecioMetodo2')
         precioMin = request.form.get('precioMin')
+        costoEnsambleProductos = request.form.get('costoEnsambleProductos')
 
         # Imprimir campos
         print("Número de Cotización recibido:", numero_cotizacion)
@@ -136,6 +141,24 @@ def index():
         print("Precio Método 2 recibido:", precioMetodo2)
         print("% MP / Precio Método 2 recibido:", porcentajeMPPrecioMetodo2)
         print("Precio Mín recibido:", precioMin)
+
+        print(f"Ensamble con otros productos: {ensambleProductos}, Número de partes: {numeroDePartes}")
+        
+        partes = []
+        for i in range(1, numeroDePartes + 1):
+            parte = {
+                'numeroParte': request.form.get(f'numeroParte{i}', ''),
+                'precioPorUnd': request.form.get(f'precioPorUnd{i}', ''),
+                'maquinaEnsamble': request.form.get(f'maquinaEnsamble{i}', ''),
+                'numeroPersonas': request.form.get(f'numeroPersonas{i}', ''),
+                'piezasXTurno': request.form.get(f'piezasXTurno{i}', ''),
+                'costoEnsamble': request.form.get(f'costoEnsamble{i}', ''),
+                'total': request.form.get(f'total{i}', '')
+            }
+            partes.append(parte)
+            print(f"Parte {i}: {parte}")
+        
+        print("Costo Total Ensamble recibido:", costoEnsambleProductos)
 
         # Guardar en archivo CSV
         #with open('cotizaciones.csv', mode='a', newline='') as file:
