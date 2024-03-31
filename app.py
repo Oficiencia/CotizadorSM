@@ -38,6 +38,12 @@ class CotizacionForm(FlaskForm):
     truputSeg = FloatField('Truput x seg', validators=[DataRequired()])
     ensambleProductos = BooleanField('Ensamble con otros productos')
     numeroDePartes = IntegerField('Número de partes', validators=[Optional()], default=0)
+    linners = BooleanField('Linners')
+    refLinner = StringField('Ref. Linner', validators=[Optional()])
+    precioPorUndLinner = FloatField('Costo por Und', validators=[Optional()])
+    maquinaPorUndLinner = FloatField('Maquina por Und', validators=[Optional()])
+    personasLinner = IntegerField('# Personas', validators=[Optional()])
+    piezasPorTurnoLinner = IntegerField('Piezas por turno', validators=[Optional()])
     guardar = SubmitField('Guardar Cotización')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -83,6 +89,8 @@ def index():
         porcentajeMPPrecioMetodo2 = request.form.get('porcentajeMPPrecioMetodo2')
         precioMin = request.form.get('precioMin')
         costoEnsambleProductos = request.form.get('costoEnsambleProductos')
+        costoEnsambleLinner = request.form.get('costoEnsambleLinner')
+        costoLinners = request.form.get('costoLinners')
 
         # Imprimir campos
         print("Número de Cotización recibido:", numero_cotizacion)
@@ -159,6 +167,20 @@ def index():
             print(f"Parte {i}: {parte}")
         
         print("Costo Total Ensamble recibido:", costoEnsambleProductos)
+
+        if form.linners.data:
+            refLinner = form.refLinner.data
+            precioPorUndLinner = form.precioPorUndLinner.data
+            maquinaPorUndLinner = form.maquinaPorUndLinner.data
+            personasLinner = form.personasLinner.data
+            piezasPorTurnoLinner = form.piezasPorTurnoLinner.data
+            print(f"Ref. Linner: {refLinner}")
+            print(f"Costo por Und Linner: {precioPorUndLinner}")
+            print(f"Maq por und. Linner: {maquinaPorUndLinner}")
+            print(f"Personas. Linner: {personasLinner}")
+            print(f"Piezas por Turno. Linner: {piezasPorTurnoLinner}")
+            print(f"Costo Ensamble Linner: {costoEnsambleLinner}")
+            print(f"Costo Linner: {costoLinners}")
 
         # Guardar en archivo CSV
         #with open('cotizaciones.csv', mode='a', newline='') as file:
