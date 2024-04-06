@@ -328,12 +328,12 @@
                     </div>
 
                     <div id="linnersTitles" class="row mt-2" style="display: none;">
-                        <div class="col"><strong>Ref. Linner</strong></div>
+                        <div class="col"><strong>Referencia</strong></div>
                         <div class="col"><strong>Costo por Und</strong></div>
                         <div class="col"><strong>Maquina x Und</strong></div>
                         <div class="col"><strong># Personas</strong></div>
                         <div class="col"><strong>Piezas por turno</strong></div>
-                        <div class="col"><strong>Costo Ensamble</strong></div>
+                        <div class="col"><strong>Costo Postura</strong></div>
                         <div class="col"><strong>Costo Total</strong></div>
                     </div>
                     
@@ -354,7 +354,7 @@
                             {{ form.piezasPorTurnoLinner(class="form-control", id="piezasPorTurnoLinner", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="costoEnsambleLinner" name="costoEnsambleLinner" placeholder="Costo Ensamble" readonly>
+                            <input type="number" class="form-control" id="costoEnsambleLinner" name="costoEnsambleLinner" placeholder="Costo Postura" readonly>
                         </div>
                         <div class="col">
                             <input type="number" step="0.01" class="form-control" id="costoLinners" name="costoLinners" placeholder="Costo Total" readonly>
@@ -363,7 +363,7 @@
 
                     <!-- Etiquetas -->
                     <div class="form-check mt-3">
-                        <input type="checkbox" class="form-check-input" id="etiquetas">
+                        {{ form.etiquetas(class="form-check-input", id="etiquetas") }}
                         <label class="form-check-label" for="etiquetas"><strong>Etiquetas</strong></label>
                     </div>
 
@@ -379,22 +379,22 @@
 
                     <div id="etiquetasFields" class="row mt-2" style="display: none;">
                         <div class="col">
-                            <input type="text" class="form-control" id="refetiqueta" name="refetiqueta" placeholder="Referencia" disabled>
+                            {{ form.refetiqueta(class="form-control", id="refetiqueta", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" step="0.01" class="form-control" id="precioPorUndEtiqueta" name="precioPorUndEtiqueta" placeholder="Costo por Und" disabled>
+                            {{ form.precioPorUndEtiqueta(class="form-control", id="precioPorUndEtiqueta", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" step="0.01" class="form-control" id="maquinaPorUndEtiqueta" name="maquinaPorUndEtiqueta" placeholder="Maquina por Und" disabled>
+                            {{ form.maquinaPorUndEtiqueta(class="form-control", id="maquinaPorUndEtiqueta", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="personasEtiqueta" name="personasEtiqueta" placeholder="# Personas" disabled>
+                            {{ form.personasEtiqueta(class="form-control", id="personasEtiqueta", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="piezasPorTurnoEtiqueta" name="piezasPorTurnoEtiqueta" placeholder="Piezas por turno" disabled>
+                            {{ form.piezasPorTurnoEtiqueta(class="form-control", id="piezasPorTurnoEtiqueta", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="costoPosturaEtiqueta" name="costoPosturaEtiqueta" placeholder="Costo Ensamble" readonly>
+                            <input type="number" class="form-control" id="costoPosturaEtiqueta" name="costoPosturaEtiqueta" placeholder="Costo Postura" readonly>
                         </div>
                         <div class="col">
                             <input type="number" step="0.01" class="form-control" id="costoEtiquetas" name="costoEtiquetas" placeholder="Costo Total" readonly>
@@ -434,7 +434,7 @@
                             <input type="number" class="form-control" id="piezasPorTurnoFajilla" name="piezasPorTurnoFajilla" placeholder="Piezas por turno" disabled>
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="costoPosturaFajilla" name="costoPosturaFajilla" placeholder="Costo Ensamble" readonly>
+                            <input type="number" class="form-control" id="costoPosturaFajilla" name="costoPosturaFajilla" placeholder="Costo Postura" readonly>
                         </div>
                         <div class="col">
                             <input type="number" step="0.01" class="form-control" id="costoFajillas" name="costoFajillas" placeholder="Costo Total" readonly>
@@ -892,13 +892,13 @@
                 var precioPorUndEtiqueta = parseFloat($('#precioPorUndEtiqueta').val()) || 0;
                 var maquinaPorUndEtiqueta = parseFloat($('#maquinaPorUndEtiqueta').val()) || 0;
                 
-                // Se recalcula costoEnsambleEtiqueta solo si hay valores en personasEtiqueta y piezasPorTurnoEtiqueta
-                var costoEnsambleEtiqueta = personasEtiqueta && piezasPorTurnoEtiqueta ? (SalarioMin * personasEtiqueta / (3 * 24 * piezasPorTurnoEtiqueta)) * (1 + 0.1) : 0;
+                // Se recalcula costoPosturaEtiqueta solo si hay valores en personasEtiqueta y piezasPorTurnoEtiqueta
+                var costoPosturaEtiqueta = personasEtiqueta && piezasPorTurnoEtiqueta ? (SalarioMin * personasEtiqueta / (3 * 24 * piezasPorTurnoEtiqueta)) * (1 + 0.1) : 0;
 
-                var costoEtiquetas = costoEnsambleEtiqueta + precioPorUndEtiqueta + maquinaPorUndEtiqueta;
+                var costoEtiquetas = costoPosturaEtiqueta + precioPorUndEtiqueta + maquinaPorUndEtiqueta;
 
                 // Actualizar los campos con los resultados
-                $('#costoEnsambleEtiqueta').val(costoEnsambleEtiqueta.toFixed(2));
+                $('#costoPosturaEtiqueta').val(costoPosturaEtiqueta.toFixed(2));
                 $('#costoEtiquetas').val(costoEtiquetas.toFixed(2));
                 calcularValores();
             }

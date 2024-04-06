@@ -39,11 +39,17 @@ class CotizacionForm(FlaskForm):
     ensambleProductos = BooleanField('Ensamble con otros productos')
     numeroDePartes = IntegerField('Número de partes', validators=[Optional()], default=0)
     linners = BooleanField('Linners')
-    refLinner = StringField('Ref. Linner', validators=[Optional()])
+    refLinner = StringField('Referencia', validators=[Optional()])
     precioPorUndLinner = FloatField('Costo por Und', validators=[Optional()])
     maquinaPorUndLinner = FloatField('Maquina por Und', validators=[Optional()])
     personasLinner = IntegerField('# Personas', validators=[Optional()])
     piezasPorTurnoLinner = IntegerField('Piezas por turno', validators=[Optional()])
+    etiquetas = BooleanField('Etiquetas')
+    refetiqueta = StringField('Referencia', validators=[Optional()])
+    precioPorUndEtiqueta = FloatField('Costo por Und', validators=[Optional()])
+    maquinaPorUndEtiqueta = FloatField('Maquina por Und', validators=[Optional()])
+    personasEtiqueta = IntegerField('# Personas', validators=[Optional()])
+    piezasPorTurnoEtiqueta = IntegerField('Piezas por turno', validators=[Optional()])
     guardar = SubmitField('Guardar Cotización')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -91,6 +97,8 @@ def index():
         costoEnsambleProductos = request.form.get('costoEnsambleProductos')
         costoEnsambleLinner = request.form.get('costoEnsambleLinner')
         costoLinners = request.form.get('costoLinners')
+        costoPosturaEtiqueta = request.form.get('costoPosturaEtiqueta')
+        costoEtiquetas = request.form.get('costoEtiquetas')
 
         # Imprimir campos
         print("Número de Cotización recibido:", numero_cotizacion)
@@ -181,6 +189,20 @@ def index():
             print(f"Piezas por Turno. Linner: {piezasPorTurnoLinner}")
             print(f"Costo Ensamble Linner: {costoEnsambleLinner}")
             print(f"Costo Linner: {costoLinners}")
+        
+        if form.etiquetas.data:
+            refetiqueta = form.refetiqueta.data
+            precioPorUndEtiqueta = form.precioPorUndEtiqueta.data
+            maquinaPorUndEtiqueta = form.maquinaPorUndEtiqueta.data
+            personasEtiqueta = form.personasEtiqueta.data
+            piezasPorTurnoEtiqueta = form.piezasPorTurnoEtiqueta.data
+            print(f"Ref. Etiqueta: {refetiqueta}")
+            print(f"Costo por Und Etiqueta: {precioPorUndEtiqueta}")
+            print(f"Maq por und. Etiqueta: {maquinaPorUndEtiqueta}")
+            print(f"Personas. Etiqueta: {personasEtiqueta}")
+            print(f"Piezas por Turno. Etiqueta: {piezasPorTurnoEtiqueta}")
+            print(f"Costo Ensamble Etiqueta: {costoPosturaEtiqueta}")
+            print(f"Costo Etiqueta: {costoEtiquetas}")
 
         # Guardar en archivo CSV
         #with open('cotizaciones.csv', mode='a', newline='') as file:
