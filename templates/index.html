@@ -403,7 +403,7 @@
 
                     <!-- Fajillas -->
                     <div class="form-check mt-3">
-                        <input type="checkbox" class="form-check-input" id="fajillas">
+                        {{ form.fajillas(class="form-check-input", id="fajillas") }}
                         <label class="form-check-label" for="fajillas"><strong>Fajillas</strong></label>
                     </div>
 
@@ -419,19 +419,19 @@
 
                     <div id="fajillasFields" class="row mt-2" style="display: none;">
                         <div class="col">
-                            <input type="text" class="form-control" id="reffajilla" name="reffajilla" placeholder="Referencia" disabled>
+                            {{ form.reffajilla(class="form-control", id="reffajilla", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" step="0.01" class="form-control" id="precioPorUndFajilla" name="precioPorUndFajilla" placeholder="Costo por Und" disabled>
+                            {{ form.precioPorUndFajilla(class="form-control", id="precioPorUndFajilla", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" step="0.01" class="form-control" id="maquinaPorUndFajilla" name="maquinaPorUndFajilla" placeholder="Maquina por Und" disabled>
+                            {{ form.maquinaPorUndFajilla(class="form-control", id="maquinaPorUndFajilla", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="personasFajilla" name="personasFajilla" placeholder="# Personas" disabled>
+                            {{ form.personasFajilla(class="form-control", id="personasFajilla", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="piezasPorTurnoFajilla" name="piezasPorTurnoFajilla" placeholder="Piezas por turno" disabled>
+                            {{ form.piezasPorTurnoFajilla(class="form-control", id="piezasPorTurnoFajilla", step="0.01", disabled=True) }}
                         </div>
                         <div class="col">
                             <input type="number" class="form-control" id="costoPosturaFajilla" name="costoPosturaFajilla" placeholder="Costo Postura" readonly>
@@ -973,6 +973,8 @@
                     $('#tamanoCaja, #costoCaja').prop('required', true); // Hacerlos requeridos
                 } else {
                     $('#caja, #tamanoCaja, #costoCaja').prop('disabled', true);
+                    $('#tamanoCaja, #costoCaja').val('');
+                    $('#costoCajaPorUnd').val(0);
                     $('#tamanoCaja, #costoCaja').prop('required', false); // Deshabilitar y quitar requerido
                 }
             });
@@ -983,6 +985,8 @@
                     $('#costoRollo, #bolsasPorRollo').prop('required', true); // Hacerlos requeridos
                 } else {
                     $('#bolsa, #costoRollo, #bolsasPorRollo, #costoBolsa').prop('disabled', true);
+                    $('#costoRollo, #bolsasPorRollo').val('');
+                    $('#costoBolsaporUnd').val(0);
                     $('#costoRollo, #bolsasPorRollo').prop('required', false); // Deshabilitar y quitar requerido
                 }
             });

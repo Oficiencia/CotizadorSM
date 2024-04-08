@@ -50,6 +50,12 @@ class CotizacionForm(FlaskForm):
     maquinaPorUndEtiqueta = FloatField('Maquina por Und', validators=[Optional()])
     personasEtiqueta = IntegerField('# Personas', validators=[Optional()])
     piezasPorTurnoEtiqueta = IntegerField('Piezas por turno', validators=[Optional()])
+    fajillas = BooleanField('Fajillas')
+    reffajilla = StringField('Referencia', validators=[Optional()])
+    precioPorUndFajilla = FloatField('Costo por Und', validators=[Optional()])
+    maquinaPorUndFajilla = FloatField('Maquina por Und', validators=[Optional()])
+    personasFajilla = IntegerField('# Personas', validators=[Optional()])
+    piezasPorTurnoFajilla = IntegerField('Piezas por turno', validators=[Optional()])
     guardar = SubmitField('Guardar Cotización')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -99,6 +105,8 @@ def index():
         costoLinners = request.form.get('costoLinners')
         costoPosturaEtiqueta = request.form.get('costoPosturaEtiqueta')
         costoEtiquetas = request.form.get('costoEtiquetas')
+        costoPosturaFajilla = request.form.get('costoPosturaFajilla')
+        costoFajillas = request.form.get('costoFajillas')
 
         # Imprimir campos
         print("Número de Cotización recibido:", numero_cotizacion)
@@ -203,6 +211,20 @@ def index():
             print(f"Piezas por Turno. Etiqueta: {piezasPorTurnoEtiqueta}")
             print(f"Costo Ensamble Etiqueta: {costoPosturaEtiqueta}")
             print(f"Costo Etiqueta: {costoEtiquetas}")
+        
+        if form.fajillas.data:
+            reffajilla = form.reffajilla.data
+            precioPorUndFajilla = form.precioPorUndFajilla.data
+            maquinaPorUndFajilla = form.maquinaPorUndFajilla.data
+            personasFajilla = form.personasFajilla.data
+            piezasPorTurnoFajilla = form.piezasPorTurnoFajilla.data
+            print(f"Ref. Fajilla: {reffajilla}")
+            print(f"Costo por Und Fajilla: {precioPorUndFajilla}")
+            print(f"Maq por und. Fajilla: {maquinaPorUndFajilla}")
+            print(f"Personas. Fajilla: {personasFajilla}")
+            print(f"Piezas por Turno. Fajilla: {piezasPorTurnoFajilla}")
+            print(f"Costo Ensamble Fajilla: {costoPosturaFajilla}")
+            print(f"Costo Fajilla: {costoFajillas}")
 
         # Guardar en archivo CSV
         #with open('cotizaciones.csv', mode='a', newline='') as file:
