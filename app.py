@@ -6,8 +6,6 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import csv
 import os
 
-
-
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
