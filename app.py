@@ -2,10 +2,48 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, FloatField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, NumberRange, Optional, InputRequired
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import csv
+import os
+
+
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '2417'
+
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
+
+login_Manager = LoginManager(app)
+login_Manager.login_view = 'login' # Nombre de la vista de login
+
+class User(UserMixin):
+    def __init__(self, id):
+        self.id = id
+    
+    def __repr__(self):
+        return f'<User: {self.id}>'
+
+@login_Manager.user_loader
+def load_user(user_id):
+    return User(user_id)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        user = User(username)
+        login_user(user)
+        return redirect(url_for('index'))
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+        
+
+
 
 class CotizacionForm(FlaskForm):
     numeroCotizacion = StringField('N° Cotización', validators=[DataRequired()])
@@ -59,6 +97,7 @@ class CotizacionForm(FlaskForm):
     guardar = SubmitField('Guardar Cotización')
 
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     form = CotizacionForm()
     if form.validate_on_submit():
