@@ -8,6 +8,7 @@ import os
 
 app = Flask(__name__)
 
+
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
 
 login_Manager = LoginManager(app)
